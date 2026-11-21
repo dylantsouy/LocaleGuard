@@ -1,0 +1,42 @@
+name: Alpha field feedback
+description: Report your experience running the Alpha on a multilingual site you maintain.
+title: "[Alpha feedback] "
+body:
+  - type: input
+    id: environment
+    attributes:
+      label: Release and environment
+      description: Include the LocaleGuard version, operating system and Node.js version.
+      placeholder: v0.1.3-alpha.1, Windows 11, Node 24
+    validations:
+      required: true
+  - type: textarea
+    id: target
+    attributes:
+      label: Site and scan setup
+      description: Describe a site you maintain or have permission to test, the two locales, and viewport sizes. A public URL is optional.
+    validations:
+      required: true
+  - type: dropdown
+    id: result
+    attributes:
+      label: How far did you get?
+      options:
+        - Installed, ran the scan and opened the report
+        - Generated a partial report
+        - Scan failed
+        - Installation failed
+    validations:
+      required: true
+  - type: textarea
+    id: observation
+    attributes:
+      label: What happened on your site?
+      description: Give one specific observation. For a finding, include its rule ID, the visible behavior and your verdict. For a clean scan, name one layout you inspected. For a failure, include the command and relevant error.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Optional evidence
+      description: A cropped screenshot or redacted report excerpt is enough. Issues are public.
