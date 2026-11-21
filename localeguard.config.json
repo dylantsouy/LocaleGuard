@@ -1,0 +1,27 @@
+{
+  "pages": [
+    {
+      "name": "Catalog",
+      "baseline": "en",
+      "locales": {
+        "en": "http://127.0.0.1:4173/en/catalog",
+        "de": "http://127.0.0.1:4173/de/catalog"
+      }
+    },
+    {
+      "name": "Checkout",
+      "baseline": "en",
+      "locales": {
+        "en": "http://127.0.0.1:4173/en/checkout",
+        "de": "http://127.0.0.1:4173/de/checkout"
+      }
+    }
+  ],
+  "viewports": [
+    { "name": "desktop", "width": 1280, "height": 800 },
+    { "name": "mobile", "width": 390, "height": 844 }
+  ],
+  "outputDir": "./localeguard-reports",
+  "concurrency": 2,
+  "timeoutMs": 30000
+}

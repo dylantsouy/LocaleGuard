@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="{lang}"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Layout regression patterns</title>
+<style>
+* { box-sizing: border-box } body { margin: 12px; font: 16px/22px Arial, sans-serif }
+button { width: 120px; padding: 3px; font: inherit }
+.emblem,.padded { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='24'%3E%3Ccircle cx='12' cy='12' r='10' fill='teal'/%3E%3C/svg%3E") no-repeat }
+.emblem { width: 40px; height: 24px; text-indent: 100%; white-space: nowrap; overflow: hidden }
+.padded { box-sizing: content-box; height: 0; padding-top: 24px; overflow: hidden }
+.clip,.rail { width: 175px; overflow: hidden } .clip p { white-space: nowrap }
+.a11y { display: inline-block; width: 0; text-indent: -3000px; white-space: nowrap }
+.grid { display: grid; place-items: start } .fixed { grid-template-rows: 30px auto }
+.flex { display: flex; flex-wrap: wrap } .rail { display: flex; overflow-x: auto }
+.rail span { flex: none; width: 220px } .ellipsis { width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.slide { width: 220px; flex: none } .crop { width: 70px; overflow: hidden; white-space: nowrap }
+#edge { position: fixed; left: -50px; bottom: 0; width: 120px; background: beige }
+</style>
+<body>
+<h1 class="padded">Guide</h1><div class="emblem">Edition</div>
+<main class="clip" id="labels"><span class="a11y">Return to reference</span>
+<p id="title">LongUnbreakableTranslatedHeading</p><p id="subtitle">An independently clipped second line of text</p></main>
+<div class="flex"><button id="fluid">{action}</button><button>Next</button></div>
+<div class="grid"><button id="auto">{action}</button><button>Next</button></div>
+<div class="grid fixed"><button id="collision">{action}</button><button id="adjacent">Next</button></div>
+<div class="rail" aria-roledescription="carousel"><div class="slide"><div id="active" class="crop">A visible slide label is clipped</div></div>
+<div class="slide"><div id="inactive" class="crop">This slide is parked outside</div></div></div>
+<div class="ellipsis">An intentionally shortened heading</div>
+<div hidden class="crop">Hidden text</div><div aria-hidden="true" class="crop">Decorative label</div>
+<div id="transient" class="crop">Hydrating temporarily</div>
+<div id="late-font" style="width:110px;overflow:hidden;white-space:nowrap;font-size:8px">Delivery options</div>
+<button id="edge">Contact</button>
+<script>
+window.addEventListener('load', () => {
+  setTimeout(async () => {
+    document.querySelector('#transient').classList.remove('crop');
+    const face = new FontFace('Late UI', 'local("Arial"), local("Liberation Sans")');
+    try { document.fonts.add(await face.load()); } catch { /* System fonts differ by platform. */ }
+    document.querySelector('#late-font').style.font = '24px "Late UI", sans-serif';
+  }, 90);
+});
+</script></body></html>

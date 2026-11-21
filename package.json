@@ -1,0 +1,38 @@
+{
+  "name": "localeguard",
+  "version": "0.1.3-alpha.1",
+  "private": true,
+  "description": "Local multilingual UI quality checks for websites",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "localeguard": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepare": "npm run build",
+    "scan": "node dist/cli.js scan",
+    "fixture": "node fixtures/serve.mjs",
+    "test": "npm run build && node --test tests/*.test.mjs",
+    "test:package": "node validation/package-smoke.mjs"
+  },
+  "dependencies": {
+    "commander": "^14.0.0",
+    "playwright": "1.65.1",
+    "pngjs": "7.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/pngjs": "6.0.5",
+    "robots-parser": "^3.0.1",
+    "typescript": "~5.9.3"
+  }
+}

@@ -1,0 +1,31 @@
+* { box-sizing: border-box; }
+body { margin: 0; background: #f6f4ef; color: #182e2a; font: 16px/1.5 Arial, sans-serif; }
+main { max-width: 800px; margin: 0 auto; padding: 24px; }
+header { display: flex; justify-content: space-between; gap: 12px; border-bottom: 2px solid #254b3d; padding-bottom: 12px; }
+h1, h2 { font-family: Georgia, serif; line-height: 1.15; }
+h1 { margin: 32px 0 20px; font-size: clamp(28px, 6vw, 46px); }
+h2 { margin: 12px 0; }
+section { margin: 0 0 16px; padding: 18px; background: white; border: 1px solid #d8d9cc; }
+.book { background: #deeadf; }
+.book p { margin: 0; }
+.ellipsis { max-width: 130px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.clamp { max-width: 280px; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.rail, .carousel { display: flex; max-width: 300px; gap: 8px; }
+.rail { overflow-x: auto; }
+.rail span, .carousel div { flex: none; padding: 6px 20px; background: #eaf0ec; }
+.carousel { max-width: 175px; overflow: hidden; }
+.carousel div { width: 175px; }
+.sr { position: absolute; clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; }
+.away { position: absolute; left: 200vw; }
+button { display: block; margin: 12px 0; border: 1px solid #234a3a; border-radius: 4px; padding: 6px 8px; font: 16px/20px Arial, sans-serif; background: #fff; color: inherit; }
+#confirm-order { background: #234a3a; color: #fff; }
+#delivery-note { max-width: 320px; }
+#delivery-options { width: 125px; }
+.broken #delivery-note { height: 24px; overflow: hidden; }
+.broken #confirm-order { width: 92px; white-space: nowrap; overflow: hidden; }
+#shipping-banner { padding: 8px; background: #eaf0ec; }
+@media (max-width: 600px) {
+  main { padding: 12px; }
+  header { flex-direction: column; gap: 0; }
+  .broken #shipping-banner { width: 640px; }
+}

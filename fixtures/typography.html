@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Typography regression</title>
+<style>
+body{font:16px/24px Arial,sans-serif;margin:16px}p,h2{margin:0}
+.rows{display:grid;margin-bottom:24px}.three{grid-template-rows:14px auto}
+.five{grid-template-rows:12px auto}.eight{grid-template-rows:9px auto}
+.serif{font-family:Georgia,serif}.cjk{font:18px/25px sans-serif}
+.compact{font:16px/16px Georgia,serif}.pull{margin-top:-4px}.wrap{max-width:160px}
+.vertical{writing-mode:vertical-rl;height:110px}
+</style><body>
+<section class="rows three"><p id="three-a">gyp gyp gyp gyp</p><p id="three-b">ÉTÉ ÉTÉ ÉTÉ ÉTÉ</p></section>
+<section class="rows five"><p id="five-a">International delivery</p><p id="five-b">Contact information</p></section>
+<section class="rows eight"><p id="eight-a">Shipping guide</p><p id="eight-b">Édition régionale</p></section>
+<section class="rows five cjk" lang="ja"><p id="cjk-a">国際配送の手続き</p><p id="cjk-b">図書館のお知らせ</p></section>
+<section class="rows five serif" dir="rtl" lang="he"><p id="rtl-a">מדריך למשלוח</p><p id="rtl-b">מידע ליצירת קשר</p></section>
+<section class="compact"><p>Tight small caps</p><p>MORE SMALL CAPS</p></section>
+<section><p>Distance x<sup>2</sup> and H<sub>2</sub>O</p><p class="pull">A legal negative margin</p></section>
+<h2 class="wrap">A multiline heading <span>with inline text</span></h2>
+<p><span aria-hidden="true">✦</span> Inline icon</p>
+<section class="vertical" lang="ja"><p>正常な縦書き</p><p>次の段落</p></section>
+<p lang="ar" dir="rtl">معلومات المكتبة</p><p hidden>Hidden copy</p>
+<details><summary>Further reading</summary><p>Hidden until expanded</p></details>
+</body></html>

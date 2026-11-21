@@ -1,0 +1,9 @@
+node_modules/
+dist/
+localeguard-reports/
+.local-tools/
+*.tsbuildinfo
+*.tgz
+/validation/*
+!/validation/package-smoke.mjs
+/QUALITY_REPORT*.md
