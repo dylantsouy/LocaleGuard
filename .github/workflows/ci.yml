@@ -1,9 +1,33 @@
 name: CI
-on: [push, pull_request]
+on:
+  pull_request:
+  push:
+    branches: [main, develop, 'release/**']
+    tags: ['v*-alpha.*']
 permissions:
   contents: read
 jobs:
+  package:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: |
+          npm pack
+          sha256sum localeguard-*.tgz > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: alpha-package
+          path: |
+            localeguard-*.tgz
+            SHA256SUMS
+          if-no-files-found: error
   test:
+    needs: package
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -21,7 +45,38 @@ jobs:
       - if: runner.os == 'Windows'
         run: npx playwright install chromium
       - run: npm test
+      - uses: actions/download-artifact@v4
+        with:
+          name: alpha-package
+          path: release-assets
       - shell: bash
         run: |
-          npm pack
-          npm run test:package -- ./localeguard-*.tgz
+          (cd release-assets && sha256sum -c SHA256SUMS)
+          npm run test:package -- ./release-assets/localeguard-*.tgz
+  publish-alpha:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    needs: test
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: alpha-package
+          path: release-assets
+      - name: Publish tested tarball as a GitHub prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          test "$TAG" = "v$(node -p 'require("./package.json").version')"
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+          cd release-assets
+          sha256sum -c SHA256SUMS
+          gh release create "$TAG" "localeguard-${TAG#v}.tgz" SHA256SUMS \
+            --verify-tag --prerelease --title "LocaleGuard ${TAG#v}" \
+            --notes-file "../docs/releases/$TAG.md"
