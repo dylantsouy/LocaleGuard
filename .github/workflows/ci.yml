@@ -43,11 +43,23 @@ jobs:
       - run: npm ci
       - if: runner.os == 'Linux'
         run: npx playwright install --with-deps chromium
-      - name: Use the runner's packaged Chrome sandbox on Ubuntu
+      - name: Enable Chromium's user namespace sandbox on the Ubuntu runner
         if: runner.os == 'Linux'
         run: |
-          test -u /opt/google/chrome/chrome-sandbox
-          echo "CHROME_DEVEL_SANDBOX=/opt/google/chrome/chrome-sandbox" >> "$GITHUB_ENV"
+          browsers=/opt/localeguard-playwright
+          sudo cp -a "$HOME/.cache/ms-playwright" "$browsers"
+          sudo chown -R root:root "$browsers"
+          sudo chmod -R a+rX,go-w "$browsers"
+          shell=$(find "$browsers" -type f \( -name chrome-headless-shell -o -name headless_shell \) -print -quit)
+          test -x "$shell"
+          sudo apparmor_parser -r <<PROFILE
+          abi <abi/4.0>,
+          include <tunables/global>
+          profile localeguard-chromium "$shell" flags=(unconfined) {
+            userns,
+          }
+          PROFILE
+          echo "PLAYWRIGHT_BROWSERS_PATH=$browsers" >> "$GITHUB_ENV"
       - if: runner.os == 'Windows'
         run: npx playwright install chromium
       - name: Run source tests
