@@ -2,6 +2,23 @@
 
 LocaleGuard checks how localized pages lay out in Chromium. Give it the URLs for each language and the viewport sizes you support. The local CLI measures rendered text, checks the edges of the document, and compares corresponding controls across languages. Each finding includes measurements and an annotated screenshot.
 
+## Try the GitHub Alpha on your site
+
+Download `localeguard-0.1.3-alpha.1.tgz` from the release assets. In a project using Node.js 22, 24 or 26, place the archive in the current directory and run the following commands. [Alpha download and checksum](https://github.com/dylantsouy/LocaleGuard/releases/tag/v0.1.3-alpha.1)
+
+```sh
+npm install --save-dev ./localeguard-0.1.3-alpha.1.tgz
+npx playwright install chromium
+```
+
+Copy the [sample config](https://github.com/dylantsouy/LocaleGuard/blob/v0.1.3-alpha.1/localeguard.config.json) to `localeguard.config.json`. Replace the example pages with two language URLs for the same page on a site you maintain. Keep the baseline language and the viewports you want to check. Then run the local binary.
+
+```sh
+npx --offline localeguard scan --config localeguard.config.json
+```
+
+Open the printed HTML path. Check each target's scan status and compare a finding with its original screenshot. A completed scan with an error-severity finding writes its reports and exits with code 1. Share one concrete observation, including your locales, viewport and the result you saw. [Alpha feedback form](https://github.com/dylantsouy/LocaleGuard/issues/new?template=alpha-feedback.yml)
+
 ## Run the included example
 
 From this checkout, use Node.js 22, 24 or 26 LTS with npm. Install dependencies and the matching Chromium build. The installation also compiles the TypeScript CLI.
@@ -35,7 +52,7 @@ The checkout also supports the package binary through npm. Offline mode resolves
 npx --offline localeguard scan --config localeguard.config.json
 ```
 
-Version `0.1.3-alpha.1` is distributed as a local tarball. The npm package metadata is private.
+The Alpha is distributed as a GitHub Release tarball. The package retains npm's private flag.
 
 ## Use a local tarball in another project
 
@@ -150,7 +167,7 @@ npm run build
 npm test
 ```
 
-The test suite starts loopback servers on ephemeral ports. It checks rule evidence, intentional typography, deterministic reports, exit codes, screenshots, bounded scans, HTTP failures, origin stops and timeouts. The GitHub Actions workflow defines Windows and Linux jobs on Node 22, 24 and 26. See the quality report for the environments actually verified.
+The test suite starts loopback servers on ephemeral ports. It checks rule evidence, intentional typography, deterministic reports, exit codes, screenshots, bounded scans, HTTP failures, origin stops and timeouts. GitHub Actions runs the source suite and the release tarball on Windows and Linux with Node 22, 24 and 26. [CI runs](https://github.com/dylantsouy/LocaleGuard/actions/workflows/ci.yml)
 
 | Path | Responsibility |
 | --- | --- |
